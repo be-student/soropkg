@@ -11,4 +11,5 @@ AGENTS.md
 .claude/
 .vercel
 EXECUTION_PROMPT.md
+ISSUE_BANK.md
 packages/cli/scripts/m0-validate.mjs
