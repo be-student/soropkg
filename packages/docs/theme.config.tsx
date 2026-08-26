@@ -17,8 +17,8 @@ const StellarLogo = () => (
 
 const config: DocsThemeConfig = {
   logo: <StellarLogo />,
-  project: { link: 'https://github.com/Ipramking/soropkg' },
-  docsRepositoryBase: 'https://github.com/Ipramking/soropkg/tree/main/packages/docs',
+  project: { link: 'https://github.com/soropkg/soropkg' },
+  docsRepositoryBase: 'https://github.com/soropkg/soropkg/tree/main/packages/docs',
   head() {
     const { frontMatter, title } = useConfig()
     return (
@@ -50,7 +50,7 @@ const config: DocsThemeConfig = {
     content: (
       <span style={{ fontSize: 13 }}>
         soropkg is in active development —{' '}
-        <a href="https://github.com/Ipramking/soropkg" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>Star on GitHub</a>
+        <a href="https://github.com/soropkg/soropkg" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>Star on GitHub</a>
       </span>
     ),
   },

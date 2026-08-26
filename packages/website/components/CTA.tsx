@@ -19,7 +19,7 @@ export default function CTA() {
               Ready to build<br />on Stellar?
             </h2>
             <p style={{ fontSize: 16, color: "var(--text-mid)", lineHeight: 1.75, marginBottom: 40, maxWidth: 420 }}>
-              Install soropkg and start managing smart contract dependencies the way you manage npm packages — with on-chain verification and full type safety.
+              Install soropkg and read any deployed contract's interface in seconds — parsed straight from the WASM on the chain, no ABI files needed.
             </p>
             <div className="btn-row">
               <a href="#" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "11px 24px", borderRadius: 4, background: "var(--yellow)", color: "#0F0F0F", textDecoration: "none", fontSize: 14, fontWeight: 600, transition: "opacity 0.15s" }}
@@ -28,7 +28,7 @@ export default function CTA() {
               >
                 Read the docs <ArrowRight size={14} strokeWidth={2.5} />
               </a>
-              <a href="https://github.com/Ipramking/soropkg" target="_blank" rel="noopener noreferrer"
+              <a href="https://github.com/soropkg/soropkg" target="_blank" rel="noopener noreferrer"
                 style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "11px 24px", borderRadius: 4, background: "transparent", color: "var(--text-hi)", textDecoration: "none", fontSize: 14, fontWeight: 400, border: "1px solid var(--border-hi)", transition: "border-color 0.15s" }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = "var(--warm)"}
                 onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border-hi)"}
@@ -50,12 +50,14 @@ export default function CTA() {
                 ["$", " soropkg init", "y"],
                 ["  ✓", "  Created soroban.toml", "t"],
                 ["", "", ""],
-                ["$", " soropkg add blend-capital/blend@^2", "y"],
-                ["  ✓", "  Resolved blend-capital/blend@2.0.1", "t"],
-                ["  ✓", "  Updated soroban.toml", "t"],
+                ["$", " soropkg inspect CAQQR5SWBXKIG...", "y"],
                 ["", "", ""],
-                ["$", " soropkg generate", "y"],
-                ["  ✓", "  blend_capital__blend.ts", "t"],
+                ["  Contract:  CAQQR5SWBXKIGZKPBZDH3KM5GQ5GUTP...", ""],
+                ["  Network:   mainnet", ""],
+                ["", "", ""],
+                ["  Functions", ""],
+                ["    fn deposit(from: Address, pool: Address,", ""],
+                ["       amount: i128) → i128", ""],
               ].map(([prefix, rest, color], i) => (
                 <span key={i} style={{ display: "block" }}>
                   {color === "y" ? <><span style={{ color: "var(--yellow)" }}>{prefix}</span>{rest}</>

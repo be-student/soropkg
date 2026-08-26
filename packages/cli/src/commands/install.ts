@@ -2,7 +2,6 @@ import { Command } from "commander";
 import chalk from "chalk";
 
 // TODO(contributor): implement dependency installation
-// Issue: https://github.com/lumenloop/soropkg/issues/4
 //
 // This command should:
 // 1. Read soroban.toml [dependencies]
@@ -12,9 +11,8 @@ import chalk from "chalk";
 
 export const installCommand = new Command("install")
   .description("Install all dependencies declared in soroban.toml")
-  .option("--registry <url>", "Registry URL", "https://registry.soropkg.dev")
+  .option("--registry <url>", "Registry URL")
   .action(async () => {
     console.log(chalk.yellow(`"soropkg install" is not yet implemented.`));
-    console.log(chalk.dim(`Tracking issue: https://github.com/lumenloop/soropkg/issues/4`));
     console.log(chalk.dim(`\nWant to contribute? See CONTRIBUTING.md`));
   });

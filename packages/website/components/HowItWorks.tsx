@@ -7,23 +7,23 @@ const steps = [
     description: "Point soropkg at any contract address on mainnet, testnet, or futurenet. It fetches the WASM binary, parses the contractspecv0 section, and returns a typed interface — functions, arguments, return values, and custom error types.",
     code: `$ soropkg inspect CAQQR5SWBXKIGZKPBZDH...
 
-Contract   blend-capital/backstop
-Network    mainnet
+Contract: CAQQR5SWBXKIGZKPBZDH3KM5GQ5GUTPKB7JAFCINLZBC5WXPJKRG3IM7
+Network:  mainnet
+WASM:     0f1e2d3c4b5a69788796a5b4c3d2e1f0...
 
 Functions
-  deposit(from: Address, pool: Address, amount: i128) → i128
-  withdraw(from: Address, pool: Address, amount: i128) → i128
-  queue_withdrawal(from: Address, pool: Address, amount: i128)
-  claim(from: Address, pool_addresses: Vec<Address>) → i128
+  fn deposit(from: Address, pool: Address, amount: i128) → i128
+  fn withdraw(from: Address, pool: Address, amount: i128) → i128
+  fn claim(from: Address, pool_addresses: Vec<Address>) → i128
 
 Errors
-  1  InvalidShareMintAmount
-  2  InvalidTokenWithdrawAmount`,
+  error InvalidShareMintAmount = 1
+  error InvalidTokenWithdrawAmount = 2`,
   },
   {
     num: "02", color: "var(--teal)",
     title: "Declare your manifest",
-    description: "Run soropkg init to scaffold a soroban.toml. Declare contract IDs per network and list dependencies with semantic version ranges — exactly like package.json, but for on-chain contracts.",
+    description: "Run soropkg init to scaffold a soroban.toml. Declare your package metadata and contract IDs per network — one manifest, every deployment target.",
     code: `[package]
 name        = "my-org/my-protocol"
 version     = "1.0.0"
@@ -32,27 +32,7 @@ repository  = "https://github.com/my-org/my-protocol"
 
 [networks.mainnet]
 vault = "CCVAULTMAINNET..."
-pool  = "CCPOOLMAINNET..."
-
-[dependencies]
-"stellar/token"       = "1.0.0"
-"blend-capital/blend" = "^2.0.0"`,
-  },
-  {
-    num: "03", color: "var(--lavender)",
-    title: "Generate clients and publish",
-    description: "Run soropkg generate to emit fully-typed TypeScript bindings for every dependency. Then publish your own contracts to the registry with on-chain WASM verification.",
-    code: `$ soropkg generate
-
-  ✓  stellar__token.ts
-  ✓  blend_capital__blend.ts
-
-  Written to .soroban/
-
-$ soropkg publish
-
-  Verifying WASM on mainnet...  ✓
-  Published my-org/my-protocol@1.0.0`,
+pool  = "CCPOOLMAINNET..."`,
   },
 ];
 
@@ -63,7 +43,7 @@ export default function HowItWorks() {
         <div style={{ marginBottom: 72, maxWidth: 480 }}>
           <p style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--yellow)", marginBottom: 20 }}>How it works</p>
           <h2 className="serif section-heading" style={{ fontSize: "clamp(22px, 3.5vw, 44px)", fontWeight: 600, lineHeight: 1.15, letterSpacing: "-0.02em", color: "var(--white)" }}>
-            From on-chain to your IDE<br />in three steps
+            From on-chain to your IDE<br />in two steps
           </h2>
         </div>
 

@@ -42,7 +42,7 @@ export default function Navbar() {
 
         {/* Nav links — hidden on mobile via CSS */}
         <div className="nav-links">
-          {[["Features", "#features"], ["How it works", "#how-it-works"], ["Registry", "#ecosystem"]].map(([label, href]) => (
+          {[["Features", "#features"], ["How it works", "#how-it-works"], ["Ecosystem", "#ecosystem"]].map(([label, href]) => (
             <a key={label} href={href} style={{
               color: "var(--text-mid)", textDecoration: "none", fontSize: 13,
               fontWeight: 400, padding: "6px 14px", borderRadius: 4, transition: "color 0.15s",
@@ -53,7 +53,7 @@ export default function Navbar() {
               {label}
             </a>
           ))}
-          <a href="https://github.com/Ipramking/soropkg" target="_blank" rel="noopener noreferrer"
+          <a href="https://github.com/soropkg/soropkg" target="_blank" rel="noopener noreferrer"
             style={{
               display: "flex", alignItems: "center", gap: 7,
               marginLeft: 8, padding: "7px 16px", borderRadius: 4,

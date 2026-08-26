@@ -2,7 +2,6 @@ import { Command } from "commander";
 import chalk from "chalk";
 
 // TODO(contributor): implement package publishing flow
-// Issue: https://github.com/lumenloop/soropkg/issues/5
 //
 // This command should:
 // 1. Read and validate soroban.toml
@@ -13,10 +12,9 @@ import chalk from "chalk";
 
 export const publishCommand = new Command("publish")
   .description("Publish the current package to the registry")
-  .option("--registry <url>", "Registry URL", "https://registry.soropkg.dev")
+  .option("--registry <url>", "Registry URL")
   .option("--dry-run", "Validate and preview without publishing")
   .action(async () => {
     console.log(chalk.yellow(`"soropkg publish" is not yet implemented.`));
-    console.log(chalk.dim(`Tracking issue: https://github.com/lumenloop/soropkg/issues/5`));
     console.log(chalk.dim(`\nWant to contribute? See CONTRIBUTING.md`));
   });

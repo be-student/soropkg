@@ -13,22 +13,14 @@ The soropkg registry is the central index of published Soroban contract packages
 
 ## Seed packages
 
-soropkg ships with 19+ contracts from the core Stellar ecosystem pre-loaded as seed data. These are available immediately without any publishing step.
+The registry ships with seed data for **5 mainnet contracts across 2 protocols**, sourced from the Stellar ecosystem database:
 
-| Package | Category | Networks |
+| Package | Category | Contracts |
 |---|---|---|
-| `stellar/token` | Standard | mainnet, testnet |
-| `blend-capital/blend` | Lending | mainnet, testnet |
-| `blend-capital/backstop` | Lending | mainnet, testnet |
-| `blend-capital/pool` | Lending | mainnet, testnet |
-| `soroswap/router` | DEX / AMM | mainnet, testnet |
-| `soroswap/pair` | DEX / AMM | mainnet, testnet |
-| `phoenix/multihop` | DEX | mainnet, testnet |
-| `aquarius/liquidity-pool` | Liquidity | mainnet |
-| `fxdao/usdt` | Stablecoin | mainnet, testnet |
-| `reflector/oracle` | Oracle | mainnet |
-| `yieldblox/protocol` | Yield | testnet |
-| `centrifuge/pool` | RWA | mainnet |
+| `blend-capital/blend-protocol` | Lending | backstop, emitter, pool_factory (mainnet) |
+| `soroswap/soroswap-protocol` | DEX / AMM | router, factory (mainnet) |
+
+More protocols are tracked as placeholders and will be populated over time.
 
 ---
 
@@ -50,5 +42,5 @@ Package names are namespaced to GitHub identities. `my-org/my-protocol` can only
 ---
 
 <Callout type="info">
-  The registry itself is open source and part of the soropkg monorepo at [`packages/registry`](https://github.com/Ipramking/soropkg/tree/main/packages/registry).
+  The registry itself is open source and part of the soropkg monorepo at [`packages/registry`](https://github.com/soropkg/soropkg/tree/main/packages/registry).
 </Callout>

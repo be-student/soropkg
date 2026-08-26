@@ -1,13 +1,9 @@
 "use client";
-import { ScanLine, FileText, PackagePlus, Upload, Code2, Search } from "lucide-react";
+import { ScanLine, FileText } from "lucide-react";
 
 const features = [
   { Icon: ScanLine,    command: "soropkg inspect",  title: "Inspect any contract",          description: "Read the live interface of any deployed Soroban contract from the blockchain. No ABI files — the spec is stored on-chain in the WASM binary." },
   { Icon: FileText,    command: "soropkg init",     title: "Initialize a project",          description: "Scaffold a soroban.toml manifest interactively. Declare contract IDs per network and your package metadata in under a minute." },
-  { Icon: PackagePlus, command: "soropkg add",      title: "Add dependencies",              description: "Add a published contract package to your project with semver resolution. Your manifest is updated automatically." },
-  { Icon: Upload,      command: "soropkg publish",  title: "Publish packages",              description: "Publish to the registry via GitHub OAuth. On-chain WASM hash verification ensures your binary matches what's actually deployed." },
-  { Icon: Code2,       command: "soropkg generate", title: "Generate TypeScript clients",   description: "Auto-generate fully-typed TypeScript bindings for any installed contract package. No manual parsing required." },
-  { Icon: Search,      command: "soropkg search",   title: "Search the registry",           description: "Full-text search across the entire registry. Find contracts by name, category, or protocol, and filter by network availability." },
 ];
 
 export default function Features() {
@@ -17,7 +13,7 @@ export default function Features() {
         <div style={{ marginBottom: 64, maxWidth: 560 }}>
           <p style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--yellow)", marginBottom: 20 }}>Features</p>
           <h2 className="serif section-heading" style={{ fontSize: "clamp(22px, 3.5vw, 44px)", fontWeight: 600, lineHeight: 1.15, letterSpacing: "-0.02em", color: "var(--white)" }}>
-            A complete toolchain<br />for Soroban development
+            Read any Soroban contract's<br />live interface
           </h2>
         </div>
 

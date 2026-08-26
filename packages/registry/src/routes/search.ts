@@ -2,7 +2,6 @@ import { Router, Request, Response } from "express";
 import type { ApiResponse, SearchResult } from "@soropkg/core";
 
 // TODO(contributor): implement full-text search against Postgres
-// Issue: https://github.com/lumenloop/soropkg/issues/10
 //
 // Query params:
 //   q         — text query (name, description, tags)

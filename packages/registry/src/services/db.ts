@@ -1,7 +1,6 @@
 import { Pool } from "pg";
 
 // TODO(contributor): implement all database access methods
-// Issue: https://github.com/lumenloop/soropkg/issues/8
 //
 // Schema is in ../../schema.sql — run it against a local Postgres to get started.
 // The Pool is configured from env vars; copy .env.example to .env to set them.

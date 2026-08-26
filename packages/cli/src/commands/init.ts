@@ -68,5 +68,4 @@ export const initCommand = new Command("init")
     console.log(chalk.dim(`\nNext steps:`));
     console.log(chalk.dim(`  Edit ${MANIFEST_FILENAME} to add contract IDs under [networks.mainnet]`));
     console.log(chalk.dim(`  Run "soropkg inspect <contract-id>" to preview a contract's interface`));
-    console.log(chalk.dim(`  Run "soropkg publish" to publish to the registry`));
   });

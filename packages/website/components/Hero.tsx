@@ -23,8 +23,8 @@ export default function Hero() {
         </h1>
 
         <p className="hero-subtitle" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "clamp(14px, 2vw, 17px)", lineHeight: 1.75, color: "var(--text-mid)", maxWidth: 560, margin: "0 auto 48px" }}>
-          Inspect live on-chain interfaces, manage contract dependencies,
-          and generate typed TypeScript clients — all from one CLI.
+          Inspect any deployed Soroban contract's live interface — parsed straight
+          from the WASM on-chain. No ABI files, no trust assumptions.
         </p>
 
         {/* Install command */}
@@ -48,7 +48,7 @@ export default function Hero() {
           >
             Get started <ArrowRight size={14} strokeWidth={2.5} />
           </a>
-          <a href="https://github.com/Ipramking/soropkg" target="_blank" rel="noopener noreferrer"
+          <a href="https://github.com/soropkg/soropkg" target="_blank" rel="noopener noreferrer"
             style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "11px 24px", borderRadius: 4, background: "transparent", color: "var(--text-hi)", textDecoration: "none", fontSize: 14, fontWeight: 400, border: "1px solid var(--border-hi)", transition: "border-color 0.15s" }}
             onMouseEnter={e => e.currentTarget.style.borderColor = "var(--warm)"}
             onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border-hi)"}
@@ -59,7 +59,7 @@ export default function Hero() {
 
         {/* Stats */}
         <div className="stats-row" style={{ marginTop: 72, paddingTop: 48, borderTop: "1px solid var(--border)" }}>
-          {[{ value: "19+", label: "Seed contracts" }, { value: "3", label: "Networks" }, { value: "7", label: "CLI commands" }].map(s => (
+          {[{ value: "5", label: "Seed contracts" }, { value: "3", label: "Networks" }, { value: "2", label: "CLI commands" }].map(s => (
             <div key={s.label} style={{ textAlign: "center" }}>
               <div className="serif" style={{ fontSize: "clamp(24px, 3vw, 32px)", fontWeight: 600, color: "var(--yellow)", letterSpacing: "-0.02em" }}>{s.value}</div>
               <div style={{ fontSize: 12, color: "var(--text-lo)", marginTop: 4 }}>{s.label}</div>

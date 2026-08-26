@@ -2,7 +2,6 @@ import { Router, Request, Response } from "express";
 import type { ApiResponse, ApiError, Package } from "@soropkg/core";
 
 // TODO(contributor): wire up Postgres via the db service
-// Issue: https://github.com/lumenloop/soropkg/issues/8
 
 export const packagesRouter = Router();
 
@@ -57,7 +56,6 @@ packagesRouter.get("/", async (req: Request, res: Response) => {
 // Requires Authorization: Bearer <github-oauth-token>
 packagesRouter.post("/", async (req: Request, res: Response) => {
   // TODO(contributor): implement publishing flow
-  // Issue: https://github.com/lumenloop/soropkg/issues/9
   //
   // Steps:
   // 1. Verify GitHub OAuth token (call GitHub API to get user identity)

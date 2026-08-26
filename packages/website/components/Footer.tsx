@@ -1,7 +1,7 @@
 "use client";
 
 const links = [
-  { label: "GitHub",       href: "https://github.com/Ipramking/soropkg" },
+  { label: "GitHub",       href: "https://github.com/soropkg/soropkg" },
   { label: "Stellar",      href: "https://stellar.org" },
   { label: "Soroban Docs", href: "https://developers.stellar.org/docs/build/smart-contracts/overview" },
   { label: "SCF",          href: "https://communityfund.stellar.org" },

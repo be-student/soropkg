@@ -1,5 +1,4 @@
 // TODO(contributor): implement the on-chain contract indexer
-// Issue: https://github.com/lumenloop/soropkg/issues/11
 //
 // The indexer should:
 // 1. Poll the Stellar RPC for new contract deployments (getLedgerEntries / stream)
@@ -12,5 +11,4 @@
 
 export async function startIndexer(): Promise<void> {
   console.log("[indexer] Contract indexer not yet implemented.");
-  console.log("[indexer] See https://github.com/lumenloop/soropkg/issues/11");
 }

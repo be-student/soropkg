@@ -2,7 +2,7 @@
 
 **The package manager for Soroban smart contracts on Stellar.**
 
-Developers building on Soroban today copy-paste contract interfaces from GitHub, manually track contract IDs across networks, and have no way to declare or resolve dependencies between contracts. `soropkg` fixes that.
+Developers building on Soroban today copy-paste contract interfaces from GitHub and manually track contract IDs across networks. `soropkg` reads the interface of any deployed contract directly from the chain, in one command. Dependency resolution and a package registry are planned — see [status](#cli-commands) below.
 
 ```bash
 npm install -g soropkg
@@ -26,7 +26,7 @@ soropkg generate
 
 When you compile a Soroban contract, the WASM binary embeds a full machine-readable interface spec in a custom section called `contractspecv0`. Every deployed contract on Stellar mainnet already has this. `soropkg` reads it directly from the chain — no manual ABI uploads, no trust, the ground truth is on-chain.
 
-The registry adds a discovery and versioning layer on top: named packages, semver pinning, dependency declarations, and audit records — so the Stellar ecosystem can compose protocols the same way JavaScript developers compose npm packages.
+A registry adding discovery and versioning on top — named packages, semver pinning, dependency declarations, and audit records — is the long-term vision, but it is not built yet.
 
 ---
 
@@ -44,7 +44,7 @@ seeds/        # Initial contract data from stellar-ecosystem-db
 
 ## The `soroban.toml` Manifest
 
-Every project that publishes to the registry includes a `soroban.toml`:
+Every project scaffolded with `soropkg init` gets a `soroban.toml`:
 
 ```toml
 [package]
@@ -60,9 +60,6 @@ backstop     = "CAQQR5SWBXKIGZKPBZDH3KM5GQ5GUTPKB7JAFCINLZBC5WXPJKRG3IM7"
 
 [networks.testnet]
 pool_factory = "C..."
-
-[dependencies]
-"stellar/token" = "1.0.0"
 ```
 
 ---
@@ -73,32 +70,32 @@ pool_factory = "C..."
 |---------|--------|-------------|
 | `soropkg init` | ✅ Working | Scaffold `soroban.toml` interactively |
 | `soropkg inspect <id>` | ✅ Working | Fetch and display a contract's interface from the chain |
-| `soropkg add <pkg>` | 🚧 Open issue #3 | Add a dependency to `soroban.toml` |
-| `soropkg install` | 🚧 Open issue #4 | Install all declared dependencies |
-| `soropkg publish` | 🚧 Open issue #5 | Publish to the registry |
-| `soropkg search <q>` | 🚧 Open issue #6 | Search the registry |
-| `soropkg generate` | 🚧 Open issue #7 | Generate typed TypeScript clients |
+| `soropkg add <pkg>` | 🚧 Planned | Add a dependency to `soroban.toml` |
+| `soropkg install` | 🚧 Planned | Install all declared dependencies |
+| `soropkg publish` | 🚧 Planned | Publish to the registry |
+| `soropkg search <q>` | 🚧 Planned | Search the registry |
+| `soropkg generate` | 🚧 Planned | Generate typed TypeScript clients |
 
 ---
 
 ## Registry API
 
-The registry is a REST API with a Postgres backend. Current status:
+The registry is a planned REST API with a Postgres backend. Current status:
 
 | Route | Status | Description |
 |-------|--------|-------------|
 | `GET /health` | ✅ Working | Health check |
-| `GET /packages` | 🚧 Open issue #8 | List packages |
-| `GET /packages/:org/:name` | 🚧 Open issue #8 | Get package metadata |
-| `POST /packages` | 🚧 Open issue #9 | Publish a package |
-| `GET /search` | 🚧 Open issue #10 | Full-text search |
+| `GET /packages` | 🚧 Planned | List packages |
+| `GET /packages/:org/:name` | 🚧 Planned | Get package metadata |
+| `POST /packages` | 🚧 Planned | Publish a package |
+| `GET /search` | 🚧 Planned | Full-text search |
 
 ---
 
 ## Development Setup
 
 ```bash
-git clone https://github.com/lumenloop/soropkg
+git clone https://github.com/soropkg/soropkg
 cd soropkg
 npm install
 npm run build
@@ -117,7 +114,7 @@ npm run dev
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Open issues are tagged `good first issue` — every stub command is its own self-contained issue with a clear spec.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Every stub command has a written spec in its source file as a `// TODO(contributor):` comment — pick one and open a PR.
 
 ---
 

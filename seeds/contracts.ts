@@ -1,9 +1,9 @@
 // Seed data for the registry — sourced from stellar-ecosystem-db/contracts/
 // Run with: ts-node seeds/contracts.ts
 //
-// This seeds the registry with the 19 known Soroban protocol contracts so the
-// registry has real data from day one. Each entry maps to a packages row +
-// one or more contracts rows on mainnet.
+// Currently 5 contract IDs across 8 tracked orgs (Blend and Soroswap are
+// populated; the rest are placeholders with empty contract lists). Each
+// entry maps to a packages row + one or more contracts rows on mainnet.
 
 export interface SeedContract {
   org: string;
@@ -94,7 +94,6 @@ export const SEED_CONTRACTS: SeedContract[] = [
 ];
 
 // TODO(contributor): wire this up to insert into Postgres
-// Issue: https://github.com/lumenloop/soropkg/issues/12
 //
 // Once db.ts is implemented, call:
 //   for (const seed of SEED_CONTRACTS) { await db.packages.upsert(seed) }

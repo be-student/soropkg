@@ -2,7 +2,6 @@ import { Command } from "commander";
 import chalk from "chalk";
 
 // TODO(contributor): implement TypeScript client code generation
-// Issue: https://github.com/lumenloop/soropkg/issues/7
 //
 // This command should:
 // 1. Read soroban.toml and .soropkg/lock.toml
@@ -20,6 +19,5 @@ export const generateCommand = new Command("generate")
   .option("--out <dir>", "Output directory", ".soropkg/generated")
   .action(async () => {
     console.log(chalk.yellow(`"soropkg generate" is not yet implemented.`));
-    console.log(chalk.dim(`Tracking issue: https://github.com/lumenloop/soropkg/issues/7`));
     console.log(chalk.dim(`\nWant to contribute? See CONTRIBUTING.md`));
   });
