@@ -18,13 +18,13 @@ export default function Hero() {
         </p>
 
         <h1 className="serif hero-title" style={{ fontSize: "clamp(28px, 6.5vw, 80px)", fontWeight: 600, lineHeight: 1.08, letterSpacing: "-0.02em", color: "var(--white)", marginBottom: 28 }}>
-          The package manager for{" "}<em style={{ fontStyle: "italic", color: "var(--yellow)" }}>Soroban</em>{" "}
+          On-chain interface tooling for{" "}<em style={{ fontStyle: "italic", color: "var(--yellow)" }}>Soroban</em>{" "}
           smart contracts
         </h1>
 
         <p className="hero-subtitle" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "clamp(14px, 2vw, 17px)", lineHeight: 1.75, color: "var(--text-mid)", maxWidth: 560, margin: "0 auto 48px" }}>
-          Inspect any deployed Soroban contract's live interface — parsed straight
-          from the WASM on-chain. No ABI files, no trust assumptions.
+          Read any deployed contract's interface straight from the chain, and
+          watch the contracts you depend on for breaking upgrades — before they break you.
         </p>
 
         {/* Install command */}
@@ -59,7 +59,7 @@ export default function Hero() {
 
         {/* Stats */}
         <div className="stats-row" style={{ marginTop: 72, paddingTop: 48, borderTop: "1px solid var(--border)" }}>
-          {[{ value: "5", label: "Seed contracts" }, { value: "3", label: "Networks" }, { value: "2", label: "CLI commands" }].map(s => (
+          {[{ value: "4", label: "CLI commands" }, { value: "3", label: "Networks" }, { value: "0", label: "ABI files" }].map(s => (
             <div key={s.label} style={{ textAlign: "center" }}>
               <div className="serif" style={{ fontSize: "clamp(24px, 3vw, 32px)", fontWeight: 600, color: "var(--yellow)", letterSpacing: "-0.02em" }}>{s.value}</div>
               <div style={{ fontSize: 12, color: "var(--text-lo)", marginTop: 4 }}>{s.label}</div>

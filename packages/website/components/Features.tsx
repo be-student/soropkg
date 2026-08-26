@@ -1,9 +1,11 @@
 "use client";
-import { ScanLine, FileText } from "lucide-react";
+import { ScanLine, FileText, GitCompare, ShieldCheck } from "lucide-react";
 
 const features = [
   { Icon: ScanLine,    command: "soropkg inspect",  title: "Inspect any contract",          description: "Read the live interface of any deployed Soroban contract from the blockchain. No ABI files — the spec is stored on-chain in the WASM binary." },
-  { Icon: FileText,    command: "soropkg init",     title: "Initialize a project",          description: "Scaffold a soroban.toml manifest interactively. Declare contract IDs per network and your package metadata in under a minute." },
+  { Icon: GitCompare,  command: "soropkg diff",     title: "Diff two versions",             description: "Compare a contract's interface between two WASM versions and classify every change as breaking or non-breaking. Exits non-zero on breaking changes." },
+  { Icon: ShieldCheck, command: "soropkg check",    title: "Watch for drift",               description: "Baseline the contracts you depend on, then detect breaking upgrades in CI. A dependency's in-place upgrade fails your build instead of your users." },
+  { Icon: FileText,    command: "soropkg init",     title: "Initialize a project",          description: "Scaffold a soroban.toml manifest interactively. Declare your package metadata and contract IDs per network in under a minute." },
 ];
 
 export default function Features() {
@@ -13,7 +15,7 @@ export default function Features() {
         <div style={{ marginBottom: 64, maxWidth: 560 }}>
           <p style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--yellow)", marginBottom: 20 }}>Features</p>
           <h2 className="serif section-heading" style={{ fontSize: "clamp(22px, 3.5vw, 44px)", fontWeight: 600, lineHeight: 1.15, letterSpacing: "-0.02em", color: "var(--white)" }}>
-            Read any Soroban contract's<br />live interface
+Inspect, diff, and monitor<br />Soroban contract interfaces
           </h2>
         </div>
 

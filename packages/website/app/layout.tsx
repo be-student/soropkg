@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "soropkg — Package Manager for Soroban Smart Contracts",
+  title: "soropkg — On-chain interface tooling for Soroban",
   description:
-    "Discover, install, and publish smart contract packages on Stellar. Inspect live on-chain interfaces, manage dependencies, and generate typed TypeScript clients.",
-  keywords: ["Soroban", "Stellar", "smart contracts", "package manager", "blockchain"],
+    "Inspect any deployed Soroban contract's interface straight from the chain, diff it across WASM versions, and watch the contracts you depend on for breaking upgrades.",
+  keywords: ["Soroban", "Stellar", "smart contracts", "interface", "upgrade safety", "CI", "blockchain"],
   openGraph: {
-    title: "soropkg — Package Manager for Soroban",
-    description: "npm for Soroban smart contracts on Stellar.",
+    title: "soropkg — On-chain interface tooling for Soroban",
+    description: "Inspect, diff, and monitor Soroban contract interfaces for breaking upgrades.",
     type: "website",
   },
 };
