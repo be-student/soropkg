@@ -1,20 +1,21 @@
 {
   "name": "soropkg",
   "version": "0.1.0",
-  "description": "Package manager for Soroban smart contracts on Stellar",
+  "description": "Inspect any deployed Soroban contract's on-chain interface from the command line.",
   "main": "dist/index.js",
   "bin": {
     "soropkg": "dist/index.js"
   },
+  "files": ["dist"],
   "scripts": {
     "build": "tsc",
     "dev": "ts-node src/index.ts",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@soropkg/core": "*",
     "@stellar/stellar-sdk": "^12.3.0",
-    "@stellar/js-xdr": "*",
+    "@stellar/js-xdr": "^3.1.2",
     "@iarna/toml": "^3.0.0",
     "chalk": "^4.1.2",
     "commander": "^12.1.0",
@@ -22,6 +23,7 @@
     "prompts": "^2.4.2"
   },
   "devDependencies": {
+    "@soropkg/core": "*",
     "@types/node": "^20.0.0",
     "@types/prompts": "^2.4.9",
     "ts-node": "^10.9.0",

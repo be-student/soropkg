@@ -1,7 +1,14 @@
 import crypto from "crypto";
 import { Contract, rpc as StellarRpc } from "@stellar/stellar-sdk";
 import type { Network } from "@soropkg/core";
-import { PUBLIC_RPC_URLS } from "@soropkg/core";
+
+// Public RPC endpoints (no API key required). Inlined here so the published
+// CLI has no runtime dependency on the private @soropkg/core workspace package.
+const PUBLIC_RPC_URLS: Record<Network, string> = {
+  mainnet: "https://rpc.ankr.com/stellar_soroban",
+  testnet: "https://soroban-testnet.stellar.org",
+  futurenet: "https://rpc-futurenet.stellar.org",
+};
 
 export function getServer(network: Network, rpcUrl?: string): StellarRpc.Server {
   const url = rpcUrl ?? PUBLIC_RPC_URLS[network];
