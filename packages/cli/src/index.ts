@@ -3,6 +3,7 @@ import { Command } from "commander";
 import { inspectCommand } from "./commands/inspect";
 import { initCommand } from "./commands/init";
 import { diffCommand } from "./commands/diff";
+import { checkCommand } from "./commands/check";
 
 const program = new Command();
 
@@ -14,5 +15,6 @@ program
 program.addCommand(initCommand);
 program.addCommand(inspectCommand);
 program.addCommand(diffCommand);
+program.addCommand(checkCommand);
 
 program.parse(process.argv);
