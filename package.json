@@ -4,11 +4,10 @@
   "workspaces": [
     "packages/core",
     "packages/cli",
-    "packages/registry",
     "packages/website"
   ],
   "scripts": {
-    "build": "npm run build -w packages/core && npm run build -w packages/cli && npm run build -w packages/registry",
+    "build": "npm run build -w packages/core && npm run build -w packages/cli",
     "dev": "npm run dev --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",

@@ -1,32 +1,33 @@
 # soropkg
 
-**The package manager for Soroban smart contracts on Stellar.**
+**On-chain interface tooling for Soroban smart contracts on Stellar.**
 
-Developers building on Soroban today copy-paste contract interfaces from GitHub and manually track contract IDs across networks. `soropkg` reads the interface of any deployed contract directly from the chain, in one command. Dependency resolution and a package registry are planned — see [status](#cli-commands) below.
+Every deployed Soroban contract embeds a full, machine-readable interface spec in its WASM. `soropkg` reads that spec directly from the chain — so you can inspect any contract's interface, and watch the contracts your app depends on for **breaking upgrades** before they break you.
 
 ```bash
 npm install -g soropkg
 
-# Inspect any deployed contract's interface directly from the chain
+# Inspect any deployed contract's interface, straight from the chain
 soropkg inspect CAQQR5SWBXKIGZKPBZDH3KM5GQ5GUTPKB7JAFCINLZBC5WXPJKRG3IM7
 
-# Scaffold a manifest for your project
+# Scaffold a project manifest
 soropkg init
 
-# (coming soon) Add a dependency
-soropkg add blend-capital/blend-protocol
+# Diff a contract's interface between two WASM versions
+soropkg diff <contract-id> <old-wasm-hash> <new-wasm-hash>
 
-# (coming soon) Generate typed TypeScript clients
-soropkg generate
+# Watch the contracts you depend on for interface drift (great in CI)
+soropkg check --init      # scaffold soroban-watch.toml
+soropkg check             # baseline, then detect breaking upgrades
 ```
 
 ---
 
 ## Why
 
-When you compile a Soroban contract, the WASM binary embeds a full machine-readable interface spec in a custom section called `contractspecv0`. Every deployed contract on Stellar mainnet already has this. `soropkg` reads it directly from the chain — no manual ABI uploads, no trust, the ground truth is on-chain.
+When you compile a Soroban contract, the WASM binary embeds a machine-readable interface spec in a custom section (`contractspecv0`, standardized in SEP-48). Every deployed contract on Stellar mainnet already has this. `soropkg` reads it directly from the chain — no manual ABI uploads, no trust, the ground truth is on-chain.
 
-A registry adding discovery and versioning on top — named packages, semver pinning, dependency declarations, and audit records — is the long-term vision, but it is not built yet.
+Soroban contracts can also **upgrade in place**: `update_current_contract_wasm(new_hash)` swaps a contract's code while keeping the same address, silently changing its interface and breaking every generated client that talks to it. `soropkg check` snapshots the interfaces you depend on and flags breaking drift — so a dependency's upgrade fails your CI instead of your users.
 
 ---
 
@@ -36,59 +37,55 @@ A registry adding discovery and versioning on top — named packages, semver pin
 packages/
   core/       # @soropkg/core — shared TypeScript types
   cli/        # soropkg CLI (this is what users install)
-  registry/   # @soropkg/registry — REST API server
-seeds/        # Initial contract data from stellar-ecosystem-db
+  website/    # landing page
+  docs/       # documentation site
+seeds/        # curated mainnet contract data (reference / examples)
 ```
 
 ---
 
 ## The `soroban.toml` Manifest
 
-Every project scaffolded with `soropkg init` gets a `soroban.toml`:
+`soropkg init` scaffolds a `soroban.toml` for declaring your package metadata and contract IDs per network:
 
 ```toml
 [package]
 name = "blend-capital/blend-protocol"
 version = "2.0.0"
-description = "Blend Protocol core contracts"
 license = "Apache-2.0"
 repository = "https://github.com/blend-capital/blend-contracts"
 
 [networks.mainnet]
 pool_factory = "CDSYOAVXFY7SM5S64IZPPPYB4GVGGLMQVFREPSQQEZVIWXX5R23G4QSU"
 backstop     = "CAQQR5SWBXKIGZKPBZDH3KM5GQ5GUTPKB7JAFCINLZBC5WXPJKRG3IM7"
-
-[networks.testnet]
-pool_factory = "C..."
 ```
+
+---
+
+## Watching for interface drift
+
+Declare the deployed contracts your app depends on in a `soroban-watch.toml`:
+
+```toml
+network = "mainnet"
+
+[[contracts]]
+name = "soroswap-router"
+id   = "CAG5LRYQ5JVEUI5TEID72EYOVX44TTUJT5BQR2J6J77FH65PCCFAJDDH"
+```
+
+Run `soropkg check` once to record baselines (stored in `.soroban/snapshots.json`), then again — in CI, or after a dependency ships an upgrade — to detect drift. It exits non-zero on any **breaking** change, so it drops straight into a pipeline.
 
 ---
 
 ## CLI Commands
 
-| Command | Status | Description |
-|---------|--------|-------------|
-| `soropkg init` | ✅ Working | Scaffold `soroban.toml` interactively |
-| `soropkg inspect <id>` | ✅ Working | Fetch and display a contract's interface from the chain |
-| `soropkg add <pkg>` | 🚧 Planned | Add a dependency to `soroban.toml` |
-| `soropkg install` | 🚧 Planned | Install all declared dependencies |
-| `soropkg publish` | 🚧 Planned | Publish to the registry |
-| `soropkg search <q>` | 🚧 Planned | Search the registry |
-| `soropkg generate` | 🚧 Planned | Generate typed TypeScript clients |
-
----
-
-## Registry API
-
-The registry is a planned REST API with a Postgres backend. Current status:
-
-| Route | Status | Description |
-|-------|--------|-------------|
-| `GET /health` | ✅ Working | Health check |
-| `GET /packages` | 🚧 Planned | List packages |
-| `GET /packages/:org/:name` | 🚧 Planned | Get package metadata |
-| `POST /packages` | 🚧 Planned | Publish a package |
-| `GET /search` | 🚧 Planned | Full-text search |
+| Command | Description |
+|---------|-------------|
+| `soropkg init` | Scaffold a `soroban.toml` interactively |
+| `soropkg inspect <id>` | Fetch and display a deployed contract's interface from the chain |
+| `soropkg diff <id> <hashA> <hashB>` | Diff a contract's interface between two WASM versions |
+| `soropkg check` | Watch declared contracts for interface drift against recorded baselines |
 
 ---
 
@@ -100,21 +97,19 @@ cd soropkg
 npm install
 npm run build
 
-# Try the working inspect command
+# Try it
 node packages/cli/dist/index.js inspect CAQQR5SWBXKIGZKPBZDH3KM5GQ5GUTPKB7JAFCINLZBC5WXPJKRG3IM7
 
-# Start the registry API (requires Postgres — see packages/registry/.env.example)
-cd packages/registry
-cp .env.example .env
-psql -d soropkg -f schema.sql
-npm run dev
+# Run the offline test harnesses
+node packages/cli/scripts/sanity-diff.mjs
+node packages/cli/scripts/sanity-check.mjs
 ```
 
 ---
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Every stub command has a written spec in its source file as a `// TODO(contributor):` comment — pick one and open a PR.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 

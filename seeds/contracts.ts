@@ -1,9 +1,8 @@
-// Seed data for the registry — sourced from stellar-ecosystem-db/contracts/
-// Run with: ts-node seeds/contracts.ts
+// Curated mainnet contract reference data — sourced from stellar-ecosystem-db.
+// Used for examples and as a starting point for watchlists / test fixtures.
 //
 // Currently 5 contract IDs across 8 tracked orgs (Blend and Soroswap are
-// populated; the rest are placeholders with empty contract lists). Each
-// entry maps to a packages row + one or more contracts rows on mainnet.
+// populated; the rest are placeholders with empty contract lists).
 
 export interface SeedContract {
   org: string;
@@ -92,8 +91,3 @@ export const SEED_CONTRACTS: SeedContract[] = [
     contracts: [],
   },
 ];
-
-// TODO(contributor): wire this up to insert into Postgres
-//
-// Once db.ts is implemented, call:
-//   for (const seed of SEED_CONTRACTS) { await db.packages.upsert(seed) }
