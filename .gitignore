@@ -9,3 +9,5 @@ coverage/
 CLAUDE.md
 AGENTS.md
 .claude/
+.vercel
+EXECUTION_PROMPT.md
