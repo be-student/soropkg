@@ -23,34 +23,14 @@ This spec describes:
 
 ## How soropkg reads specs
 
-When you run `soropkg inspect` or `soropkg add`, soropkg:
+When you run `soropkg inspect`, `diff`, or `check`, soropkg:
 
-1. Fetches the live WASM binary from the Stellar RPC for the given contract address
+1. Fetches the WASM binary from the Stellar RPC — by contract address, or directly by content hash
 2. Parses the `contractspecv0` custom section from the WASM
 3. Deserialises the XDR-encoded spec entries
-4. Formats them as a human-readable interface (or JSON, or TypeScript types)
+4. Formats them as a human-readable interface (or JSON), or normalizes them into a comparable snapshot for diffing
 
-This means soropkg always reflects the **current deployed state** of the contract — not a stale cached version.
-
----
-
-## Type mapping
-
-Soroban types map to TypeScript as follows:
-
-| Soroban type | TypeScript type |
-|---|---|
-| `i32`, `u32` | `number` |
-| `i64`, `u64`, `i128`, `u128` | `bigint` |
-| `bool` | `boolean` |
-| `Symbol`, `String` | `string` |
-| `Address` | `string` (Stellar address) |
-| `Bytes`, `BytesN<N>` | `Buffer` |
-| `Vec<T>` | `Array<T>` |
-| `Map<K, V>` | `Map<K, V>` |
-| `Option<T>` | `T \| null` |
-| Custom struct | TypeScript `interface` |
-| Custom enum | TypeScript `enum` |
+This means soropkg always reflects the **actual deployed state** of the contract — not a stale cached version. The same decoder powers [interface-drift detection](/concepts/drift).
 
 ---
 

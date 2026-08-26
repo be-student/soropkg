@@ -1,0 +1,59 @@
+---
+title: soropkg diff
+description: Diff a Soroban contract's interface between two WASM versions
+---
+
+# `soropkg diff`
+
+Compare a contract's interface between two WASM versions and classify every change as **breaking** or **non-breaking**. Exits with code `1` when any breaking change is found, so it can gate a CI job.
+
+```bash
+soropkg diff <contract-id> <hash-a> <hash-b> [options]
+```
+
+## Arguments
+
+| Argument | Description |
+|---|---|
+| `<contract-id>` | The deployed contract ID (`C…`) the versions belong to |
+| `<hash-a>` | Old WASM hash (hex) |
+| `<hash-b>` | New WASM hash (hex) |
+
+## Options
+
+| Option | Description |
+|---|---|
+| `-n, --network <network>` | `mainnet` (default), `testnet`, `futurenet` |
+| `--rpc <url>` | Custom RPC endpoint |
+| `--json` | Output machine-readable JSON |
+
+soropkg fetches each WASM blob **by content hash** and verifies that the bytes returned hash to exactly the hash you asked for — a malicious or buggy RPC cannot substitute a different binary.
+
+## What counts as breaking
+
+| Breaking | Non-breaking |
+|---|---|
+| function removed | function added |
+| argument added, removed, or reordered | new error code added |
+| argument type changed | metadata-only changes |
+| return type changed | |
+| error code repurposed | |
+| custom type removed or its shape changed | custom type added |
+
+## Example
+
+```bash
+soropkg diff CAG5LRYQ... 4c3db3eb... 9f2a1c88...
+```
+
+```
+Contract: CAG5LRYQ...
+Network:  mainnet
+From:     4c3db3eb…d2d6a2ab
+To:       9f2a1c88…7b0a3f6e
+
+BREAKING CHANGES (1)
+  ✗ deposit: argument `amount` changed type i128 → u128
+
+─── 1 breaking, 0 non-breaking ───
+```

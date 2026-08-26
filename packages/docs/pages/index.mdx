@@ -1,15 +1,13 @@
 ---
 title: Introduction
-description: soropkg — the package manager for Soroban smart contracts on Stellar
+description: soropkg — on-chain interface tooling for Soroban smart contracts on Stellar
 ---
 
 import { Callout } from 'nextra/components'
 
 # soropkg
 
-**soropkg** is a package manager for [Soroban](https://developers.stellar.org/docs/build/smart-contracts/overview) smart contracts on the Stellar blockchain. Think of it as npm, but for on-chain contracts.
-
-It lets you discover, install, publish, and inspect smart contract packages — and generate fully-typed TypeScript clients — all from a single CLI.
+**soropkg** is on-chain interface tooling for [Soroban](https://developers.stellar.org/docs/build/smart-contracts/overview) smart contracts on Stellar. It reads a deployed contract's interface directly from the chain, and watches the contracts your app depends on for **breaking upgrades**.
 
 ```bash
 npm install -g soropkg
@@ -19,31 +17,28 @@ npm install -g soropkg
 
 ## Why soropkg?
 
-Soroban stores contract interface specs directly inside the deployed WASM binary on-chain. soropkg reads those specs directly from the network, so there are no separate ABI files to manage or keep in sync.
-
-It brings the ergonomics of a modern package manager to smart contract development:
+Soroban stores each contract's interface spec directly inside its deployed WASM binary on-chain (`contractspecv0`). soropkg reads that spec straight from the network — no separate ABI files to manage or keep in sync.
 
 - **No ABI files.** Contract interfaces live on-chain. soropkg reads them directly.
-- **Semver dependency management.** Declare contract dependencies in a `soroban.toml` manifest and let soropkg resolve versions.
-- **Type-safe clients.** Generate TypeScript bindings for any installed package with one command.
-- **On-chain verification.** Published packages are verified against the WASM hash of the actual deployed contract.
+- **Interface diffing.** Compare a contract's interface between two WASM versions and classify every change as breaking or non-breaking.
+- **Drift monitoring.** Soroban contracts can upgrade in place, silently changing their interface. `soropkg check` snapshots the contracts you depend on and fails your CI when one upgrades in a breaking way.
 
 ---
 
 ## Quick example
 
 ```bash
-# Initialise a new project
+# Inspect any live contract's interface
+soropkg inspect CAQQR5SWBXKIGZKPBZDH3KM5GQ5G...
+
+# Scaffold a project manifest
 soropkg init
 
-# Add a dependency
-soropkg add blend-capital/blend@^2.0.0
+# Diff a contract's interface between two WASM versions
+soropkg diff <contract-id> <old-wasm-hash> <new-wasm-hash>
 
-# Generate TypeScript clients for all dependencies
-soropkg generate
-
-# Inspect any live contract
-soropkg inspect CAQQR5SWBXKIGZKPBZDH3KM5GQ5G...
+# Watch your dependencies for breaking upgrades (in CI)
+soropkg check
 ```
 
 ---
@@ -52,13 +47,13 @@ soropkg inspect CAQQR5SWBXKIGZKPBZDH3KM5GQ5G...
 
 | | |
 |---|---|
-| [Getting Started →](/getting-started) | Install soropkg and scaffold your first project |
+| [Getting Started →](/getting-started) | Install soropkg and inspect your first contract |
 | [CLI Reference →](/cli) | Full reference for every command and flag |
-| [Concepts →](/concepts) | How on-chain specs, the registry, and WASM verification work |
-| [Contributing →](/contributing) | Add contracts to the registry or contribute code |
+| [Concepts →](/concepts) | How on-chain specs and interface drift work |
+| [Contributing →](/contributing) | Contribute code or test fixtures |
 
 ---
 
 <Callout type="info">
-  soropkg is in active development. The registry and CLI are functional, and new features are being added regularly. Contributions are welcome — see the [Contributing](/contributing) guide.
+  soropkg is in active development. `inspect`, `init`, `diff`, and `check` are working today; a wasm-history indexer and alerting are on the roadmap.
 </Callout>

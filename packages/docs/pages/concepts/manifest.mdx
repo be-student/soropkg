@@ -1,13 +1,17 @@
 ---
 title: soroban.toml
-description: Complete reference for the soroban.toml manifest file
+description: Reference for the soroban.toml project manifest
 ---
 
 import { Callout } from 'nextra/components'
 
 # soroban.toml
 
-`soroban.toml` is the project manifest — the single source of truth for your package metadata, deployed contract addresses, and dependencies. It lives in the root of your project directory.
+`soroban.toml` is the project manifest scaffolded by [`soropkg init`](/cli/init) — a place to declare your package metadata and deployed contract addresses per network. It lives in the root of your project directory.
+
+<Callout type="info">
+  Monitoring the contracts you *depend on* uses a separate file, [`soroban-watch.toml`](/cli/check) — see `soropkg check`.
+</Callout>
 
 ---
 
@@ -24,22 +28,12 @@ homepage    = "https://my-protocol.xyz"
 keywords    = ["defi", "lending"]
 
 [networks.mainnet]
-vault        = "CCVAULTMAINNET..."
-pool         = "CCPOOLMAINNET..."
+vault = "CCVAULTMAINNET..."
+pool  = "CCPOOLMAINNET..."
 
 [networks.testnet]
-vault        = "CCVAULTTESTNET..."
-pool         = "CCPOOLTESTNET..."
-
-[networks.futurenet]
-vault        = "CCVAULTFUTURENET..."
-
-[dependencies]
-"stellar/token"       = "1.0.0"
-"blend-capital/blend" = "^2.0.0"
-
-[dev-dependencies]
-"stellar/token" = "1.0.0"
+vault = "CCVAULTTESTNET..."
+pool  = "CCPOOLTESTNET..."
 ```
 
 ---
@@ -48,19 +42,19 @@ vault        = "CCVAULTFUTURENET..."
 
 | Field | Required | Description |
 |---|---|---|
-| `name` | Yes | `org/package` — must match your GitHub identity for publishing |
+| `name` | Yes | `org/name` identifier for your package |
 | `version` | Yes | Semver version string |
-| `description` | No | Short description shown in search results |
+| `description` | No | Short description |
 | `license` | No | SPDX license identifier |
-| `repository` | No | GitHub repository URL |
+| `repository` | No | Source repository URL |
 | `homepage` | No | Project website |
-| `keywords` | No | Array of search tags |
+| `keywords` | No | Array of tags |
 
 ---
 
 ## `[networks.<network>]`
 
-Declare your deployed contract addresses per network. Keys are arbitrary and represent the contracts in your package. Values are `C...` Stellar contract addresses.
+Declare your deployed contract addresses per network. Keys are arbitrary and represent the contracts in your project. Values are `C...` Stellar contract addresses.
 
 ```toml
 [networks.mainnet]
@@ -69,27 +63,3 @@ pool  = "CCPOOLMAINNET..."
 ```
 
 Supported networks: `mainnet`, `testnet`, `futurenet`.
-
----
-
-## `[dependencies]`
-
-Packages your project depends on, keyed by `org/name` with a semver range as the value.
-
-```toml
-[dependencies]
-"stellar/token"       = "1.0.0"
-"blend-capital/blend" = "^2.0.0"
-```
-
----
-
-## `[dev-dependencies]`
-
-Same format as `[dependencies]`, but only used during development (not included in published packages).
-
----
-
-<Callout>
-  Package names must follow the `org/name` format. The `org` portion must match your GitHub username or organisation when publishing.
-</Callout>

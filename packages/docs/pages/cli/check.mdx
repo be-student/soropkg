@@ -1,0 +1,75 @@
+---
+title: soropkg check
+description: Watch the Soroban contracts you depend on for breaking interface upgrades
+---
+
+import { Callout } from 'nextra/components'
+
+# `soropkg check`
+
+Watch the deployed contracts your app depends on for interface drift. The first run records a baseline of each contract's current interface; later runs diff the live interface against that baseline and exit `1` on any breaking change — ideal for CI.
+
+```bash
+soropkg check [options]
+```
+
+## Setup
+
+Scaffold a watchlist:
+
+```bash
+soropkg check --init
+```
+
+This writes a `soroban-watch.toml`:
+
+```toml
+network = "mainnet"   # default network; override per-contract with a "network" key
+
+[[contracts]]
+name = "soroswap-router"
+id   = "CAG5LRYQ5JVEUI5TEID72EYOVX44TTUJT5BQR2J6J77FH65PCCFAJDDH"
+```
+
+## Options
+
+| Option | Description |
+|---|---|
+| `--init` | Scaffold a `soroban-watch.toml` and exit |
+| `-f, --file <path>` | Path to the watchlist file |
+| `--update` | Record the current interfaces as the new baselines |
+| `--rpc <url>` | Custom RPC endpoint |
+| `--json` | Output machine-readable JSON |
+
+## How it works
+
+1. **First run** — fetches each contract's live interface and records baselines in `.soroban/snapshots.json`.
+2. **Later runs** — diffs live vs baseline. Clean contracts pass; breaking drift fails the run with exit code `1`.
+3. **`--update`** — accept the current interfaces as the new baselines (after you've reviewed an intended upgrade).
+
+## Example
+
+```bash
+soropkg check
+```
+
+```
+✔ soroswap-router: no drift
+
+─── 1 clean ───
+```
+
+When a dependency upgrades in a breaking way:
+
+```
+⚠ soroswap-router: drift — 1 breaking
+
+soroswap-router  (CAG5LRYQ…, mainnet)
+  ✗ function `swap_exact_tokens_for_tokens` was removed
+
+─── 1 drifted (1 breaking) ───
+```
+
+<Callout type="info">
+  Commit `soroban-watch.toml` and `.soroban/snapshots.json` to your repo, and run `soropkg check` in CI — a breaking upgrade to a dependency then fails the build instead of surfacing as a runtime error.
+</Callout>

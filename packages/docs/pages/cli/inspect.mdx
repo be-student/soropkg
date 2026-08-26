@@ -88,5 +88,5 @@ soropkg inspect CAQQR5S... --json | jq '.functions[0]'
 ---
 
 <Callout type="info">
-  The interface is read directly from the **live deployed WASM** on the specified network. If a contract has been upgraded since it was published to the registry, `inspect` will always show the current live interface.
+  The interface is read directly from the **live deployed WASM** on the specified network — so `inspect` always shows the contract's current interface, even after an in-place upgrade. To detect when that interface changes, see [`soropkg check`](/cli/check).
 </Callout>

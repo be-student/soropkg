@@ -7,7 +7,7 @@ import { Callout, Steps } from 'nextra/components'
 
 # Contributing
 
-soropkg is open source and welcomes contributions of all kinds — bug reports, documentation improvements, new features, and registry additions.
+soropkg is open source and welcomes contributions of all kinds — bug reports, documentation improvements, new features, and test fixtures.
 
 ---
 
@@ -16,12 +16,11 @@ soropkg is open source and welcomes contributions of all kinds — bug reports, 
 ```
 soropkg/
 ├── packages/
-│   ├── core/        # Core logic: WASM parsing, spec reading, type generation
-│   ├── cli/         # CLI entry point and command handlers
-│   ├── registry/    # Registry server and seed data
+│   ├── core/        # @soropkg/core — shared TypeScript types
+│   ├── cli/         # CLI entry point, commands, and the spec engine
 │   ├── website/     # Marketing landing page (Next.js)
 │   └── docs/        # This documentation site (Nextra)
-├── seeds/           # Seed contract data for the registry
+├── seeds/           # Curated mainnet contract reference data
 └── package.json     # Root workspace
 ```
 
@@ -60,12 +59,12 @@ node packages/cli/dist/index.js --help
 
 ---
 
-## Adding a contract to the registry
+## Adding contract reference data
 
-The fastest way to contribute is to add a Soroban contract package to the seed data.
+A quick first contribution is adding a Soroban contract to the reference/fixture data.
 
 1. Find the deployed contract address(es) on [StellarExpert](https://stellar.expert)
-2. Create a new entry in `seeds/` following the existing format
+2. Add an entry in `seeds/contracts.ts` following the existing format
 3. Run `soropkg inspect <address>` to verify the interface parses correctly
 4. Open a pull request with a description of the protocol
 

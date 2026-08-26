@@ -1,0 +1,39 @@
+---
+title: Interface drift
+description: How Soroban contracts change their interface via in-place upgrades, and how soropkg detects it
+---
+
+import { Callout } from 'nextra/components'
+
+# Interface drift
+
+Soroban contracts can be **upgraded in place**. A contract calls `update_current_contract_wasm(new_wasm_hash)` and its code is replaced while its address stays the same. Anything integrating with that contract keeps using the same address — but the interface behind it may have silently changed.
+
+This is **interface drift**, and it's the failure mode soropkg exists to catch.
+
+---
+
+## Why it's dangerous
+
+Generated clients, hand-written bindings, and cross-contract calls all encode a contract's interface at the moment they were written. When the deployed contract drifts:
+
+- a function you call may be **removed** or have its **arguments reordered**
+- an argument or return **type** may change
+- an **error code** may be repurposed to mean something else
+
+None of these throw at deploy time. They surface as failed transactions, misdecoded results, or corrupted state — in production, against the live address you trusted.
+
+---
+
+## How soropkg detects it
+
+soropkg reads a contract's interface from its on-chain [`contractspecv0`](/concepts/on-chain-specs) spec and normalizes it into a comparable snapshot. Two snapshots are diffed and each change is classified:
+
+- **Breaking** — an existing client can fail or misbehave (function/argument/type/return/error-code changes).
+- **Non-breaking** — additive or metadata-only; existing clients keep working.
+
+[`soropkg diff`](/cli/diff) compares two specific WASM versions; [`soropkg check`](/cli/check) compares a watched contract's **current** interface against a recorded baseline and fails CI on breaking drift.
+
+<Callout type="info">
+  Because the interface is read from the chain, there is nothing to keep in sync — the ground truth is always the deployed WASM itself.
+</Callout>
