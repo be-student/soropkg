@@ -2,6 +2,7 @@
 import { Command } from "commander";
 import { inspectCommand } from "./commands/inspect";
 import { initCommand } from "./commands/init";
+import { diffCommand } from "./commands/diff";
 
 const program = new Command();
 
@@ -12,5 +13,6 @@ program
 
 program.addCommand(initCommand);
 program.addCommand(inspectCommand);
+program.addCommand(diffCommand);
 
 program.parse(process.argv);

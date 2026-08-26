@@ -48,6 +48,33 @@ export async function fetchContractWasm(
   return { wasm, wasmHash };
 }
 
+// Fetch a WASM binary directly by its content hash (no contract instance
+// needed). This is how historical versions of an upgraded contract are
+// retrieved — the chain keeps every uploaded blob addressable by hash.
+export async function fetchWasmByHash(
+  wasmHashHex: string,
+  network: Network,
+  rpcUrl?: string
+): Promise<Buffer> {
+  const server = getServer(network, rpcUrl);
+
+  try {
+    const result = await server.getContractWasmByHash(wasmHashHex, "hex");
+    return Buffer.from(result);
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : JSON.stringify(err);
+    if (network === "mainnet" && !rpcUrl) {
+      throw new Error(
+        `Failed to fetch WASM ${wasmHashHex} from mainnet: ${msg}\n\n` +
+        `The default public mainnet RPC may be rate-limited.\n` +
+        `Provide your own endpoint with --rpc <url>\n` +
+        `Free options: Validation Cloud (validationcloud.io), Blockdaemon, Ankr`
+      );
+    }
+    throw new Error(`Failed to fetch WASM ${wasmHashHex} from ${network}: ${msg}`);
+  }
+}
+
 // Convenience: get just the WASM hash for a deployed contract without
 // fetching the full WASM binary (cheaper RPC call).
 export async function fetchContractWasmHash(
