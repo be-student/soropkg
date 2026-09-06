@@ -12,6 +12,7 @@ npm run build
 
 # Sanity-check the engine (offline, no network)
 node packages/cli/scripts/sanity-diff.mjs
+node packages/cli/scripts/sanity-diff-input.mjs
 node packages/cli/scripts/sanity-check.mjs
 ```
 

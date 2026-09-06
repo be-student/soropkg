@@ -11,6 +11,14 @@ import {
   renderSpecDiffReport,
 } from "../utils/specdiff";
 
+const WASM_HASH_PATTERN = /^[0-9a-fA-F]{64}$/;
+
+export function validateWasmHash(value: string, name: string): void {
+  if (!WASM_HASH_PATTERN.test(value)) {
+    throw new Error(`${name} must be a 64-character hexadecimal WASM hash`);
+  }
+}
+
 // soropkg diff — compare the contractspecv0 interface between two WASM
 // versions of a contract. Exit code 1 when breaking changes are found, so a
 // CI job can fail the build when a dependency upgrades unsafely.
@@ -30,6 +38,14 @@ export const diffCommand = new Command("diff")
       options: { network: string; rpc?: string; json?: boolean }
     ) => {
       const network = options.network as Network;
+
+      try {
+        validateWasmHash(hashA, "hash-a");
+        validateWasmHash(hashB, "hash-b");
+      } catch (err) {
+        console.error(chalk.red((err as Error).message));
+        process.exit(1);
+      }
 
       if (hashA === hashB) {
         console.error(chalk.red("hash-a and hash-b are identical — nothing to diff"));
