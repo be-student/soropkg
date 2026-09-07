@@ -5,6 +5,8 @@
 //
 // Run: node packages/cli/scripts/sanity-diff.mjs   (after npm run build -w packages/cli)
 
+import { spawnSync } from "node:child_process";
+
 import {
   xdr,
 } from "@stellar/stellar-sdk";
@@ -106,6 +108,19 @@ expect("function.added", "nonbreaking", "claim");
 expect("error.repurposed", "breaking", "InvalidAmount");
 expect("error.added", "nonbreaking", "TooManyRequests");
 expect("type.changed", "breaking", "Reserve");
+
+const identicalHashResult = spawnSync(
+  process.execPath,
+  ["packages/cli/dist/index.js", "diff", "CTEST", "A".repeat(64), "a".repeat(64)],
+  { encoding: "utf8" }
+);
+if (
+  identicalHashResult.status !== 1 ||
+  !identicalHashResult.stderr.includes("hash-a and hash-b are identical — nothing to diff")
+) {
+  console.error("FAIL: mixed-case identical hashes were not rejected before network access");
+  failures++;
+}
 
 // No unexpected kinds beyond the seven we seeded.
 const known = new Set([

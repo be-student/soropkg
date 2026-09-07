@@ -30,8 +30,10 @@ export const diffCommand = new Command("diff")
       options: { network: string; rpc?: string; json?: boolean }
     ) => {
       const network = options.network as Network;
+      const normalizedHashA = hashA.toLowerCase();
+      const normalizedHashB = hashB.toLowerCase();
 
-      if (hashA === hashB) {
+      if (normalizedHashA === normalizedHashB) {
         console.error(chalk.red("hash-a and hash-b are identical — nothing to diff"));
         process.exit(1);
       }
@@ -60,14 +62,14 @@ export const diffCommand = new Command("diff")
         return snapshotFromInterface(iface);
       }
 
-      const snapA = await loadSnapshot(hashA);
-      const snapB = await loadSnapshot(hashB);
+      const snapA = await loadSnapshot(normalizedHashA);
+      const snapB = await loadSnapshot(normalizedHashB);
       const changes = diffSnapshots(snapA, snapB);
 
       // Sanity: warn when neither version is what's currently deployed.
       try {
         const liveHash = await fetchContractWasmHash(contractId, network, options.rpc);
-        if (liveHash !== hashA.toLowerCase() && liveHash !== hashB.toLowerCase()) {
+        if (liveHash !== normalizedHashA && liveHash !== normalizedHashB) {
           console.log(
             chalk.yellow(
               `Note: live contract is currently at ${liveHash.slice(0, 12)}… — neither diffed version matches it`
@@ -84,8 +86,8 @@ export const diffCommand = new Command("diff")
             {
               contractId,
               network,
-              from: hashA,
-              to: hashB,
+              from: normalizedHashA,
+              to: normalizedHashB,
               breaking: changes.filter((c) => c.severity === "breaking").length,
               nonBreaking: changes.filter((c) => c.severity === "nonbreaking").length,
               changes,
@@ -95,7 +97,7 @@ export const diffCommand = new Command("diff")
           )
         );
       } else {
-        console.log(renderSpecDiffReport(contractId, network, hashA, hashB, changes));
+        console.log(renderSpecDiffReport(contractId, network, normalizedHashA, normalizedHashB, changes));
       }
 
       if (changes.some((c) => c.severity === "breaking")) {
