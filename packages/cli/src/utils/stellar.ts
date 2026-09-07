@@ -10,7 +10,16 @@ const PUBLIC_RPC_URLS: Record<Network, string> = {
   futurenet: "https://rpc-futurenet.stellar.org",
 };
 
-export function getServer(network: Network, rpcUrl?: string): StellarRpc.Server {
+export const VALID_NETWORKS = ["mainnet", "testnet", "futurenet"] as const;
+
+export function assertNetwork(network: string): asserts network is Network {
+  if (!VALID_NETWORKS.includes(network as Network)) {
+    throw new Error(`unknown network '${network}' (valid: ${VALID_NETWORKS.join(", ")})`);
+  }
+}
+
+export function getServer(network: string, rpcUrl?: string): StellarRpc.Server {
+  assertNetwork(network);
   const url = rpcUrl ?? PUBLIC_RPC_URLS[network];
   return new StellarRpc.Server(url, { allowHttp: url.startsWith("http://") });
 }
